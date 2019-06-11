@@ -1,2 +1,2 @@
-# HKCamera-SDK
-python调用海康SDK
+##### 海康人脸识别相机
+
