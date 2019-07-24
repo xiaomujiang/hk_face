@@ -84,10 +84,9 @@ void CALLBACK MessageCallback(LONG lCommand, NET_DVR_ALARMER *pAlarmer, char *pA
 	int i;
 	NET_DVR_ALARMINFO_V30 struAlarmInfo;
 	memcpy(&struAlarmInfo, pAlarmInfo, sizeof(NET_DVR_ALARMINFO_V30));
-	// CodeConverter  newCanShu = *(CodeConverter *)pUser;
-	// struct ParamsCam *newPcam = (struct ParamsCam*)pUser; 
-	char *camera_id=(char *)pUser;
-	
+	struct ParamsCam *newPcam=(struct ParamsCam*)pUser;
+	// char *camera_id=(char *)pUser;
+	cout << newPcam->_camera_id<<endl;
 	switch (lCommand)
 	{
 		case COMM_SNAP_MATCH_ALARM:
@@ -125,7 +124,6 @@ void CALLBACK MessageCallback(LONG lCommand, NET_DVR_ALARMER *pAlarmer, char *pA
 			
 			if (struFaceMatchAlarm.struSnapInfo.dwSnapFacePicLen > 0 && struFaceMatchAlarm.struSnapInfo.pBuffer1!= NULL)
 			{	
-				cout << camera_id << endl;
 				char cFilename[256] = {0};
 				char chFilePWD[256] = {0};
 				char cnowday[256];
@@ -184,7 +182,7 @@ int Demo_AlarmFortify(char *DeviceIP, int port, char *userName, char *password,c
 	pcam._face_dir_name=face_dir_name;
 	cout << "设置回调函数！！！" << endl;
 	// NET_DVR_SetDVRMessageCallBack_V30(MessageCallback,camera_id);
-	NET_DVR_SetDVRMessageCallBack_V30(MessageCallback,img_save_path);
+	NET_DVR_SetDVRMessageCallBack_V30(MessageCallback,&pcam);
 	cout << "回调设置完成！！！" << endl;
 	LONG lHandle;
 	lHandle = NET_DVR_SetupAlarmChan_V30(lUserID);
